@@ -1,0 +1,36 @@
+env: ${ENV}
+
+log_file: ${LOG_FILE}
+log_level: ${LOG_LEVEL}
+
+postgres:
+  host: ${PG_HOST}
+  port: ${PG_PORT}
+  user: ${PG_USER}
+  password: ${PG_PASSWORD}
+  DBName: ${PG_DBNAME}
+  connect_conf:
+    max_conns: ${PG_MAX_CONNS}
+    min_conns: ${PG_MIN_CONNS}
+    max_conn_lifetime: ${PG_MAX_CONN_LIFETIME}
+    max_conn_idle_time: ${PG_MAX_CONN_IDLE_TIME}
+
+grpc:
+  port: ${GRPC_PORT}
+  timeout: ${GRPC_TIMEOUT}
+
+migrations:
+  enabled: ${MIGRATIONS_ENABLED}
+  dir: ${MIGRATIONS_DIR}
+
+dial:
+  attempts: ${DIAL_ATTEMPTS}
+  per_attempt_timeout: ${DIAL_PER_ATTEMPT_TIMEOUT}
+  base_backoff: ${DIAL_BASE_BACKOFF}
+  max_backoff: ${DIAL_MAX_BACKOFF}
+  use_tls: ${DIAL_USE_TLS}
+
+auth_service:
+  host: ${AUTH_GRPC_HOST}
+  port: ${AUTH_GRPC_PORT}
+  timeout: ${AUTH_GRPC_TIMEOUT}
