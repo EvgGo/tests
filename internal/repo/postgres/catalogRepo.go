@@ -170,6 +170,8 @@ func (r *CatalogRepo) ListAssessments(
 	}
 
 	status := string(filter.Status)
+	mode := string(filter.Mode)
+	queryText := strings.TrimSpace(filter.Query)
 
 	query := `
 		select
@@ -185,16 +187,28 @@ func (r *CatalogRepo) ListAssessments(
 		where id > $1
 		  and ($2::bigint = 0 or subject_id = $2)
 		  and ($3 = '' or status = $3)
+		  and ($4 = '' or mode = $4)
 		  and (
-			$4 = ''
-			or code ilike '%' || $4 || '%'
-			or title ilike '%' || $4 || '%'
+			$5 = ''
+			or code ilike '%' || $5 || '%'
+			or title ilike '%' || $5 || '%'
 		  )
-		order by id asc
-		limit $5
+		order by
+			case when $4 <> '' then mode end asc,
+			id asc
+		limit $6
 	`
 
-	rows, err := qr.Query(ctx, query, cursorID, filter.SubjectID, status, strings.TrimSpace(filter.Query), pageSize+1)
+	rows, err := qr.Query(
+		ctx,
+		query,
+		cursorID,
+		filter.SubjectID,
+		status,
+		mode,
+		queryText,
+		pageSize+1,
+	)
 	if err != nil {
 		return nil, "", err
 	}
@@ -207,7 +221,7 @@ func (r *CatalogRepo) ListAssessments(
 		var assessmentStatus string
 		var assessmentMode string
 
-		if err := rows.Scan(
+		if err = rows.Scan(
 			&assessment.ID,
 			&assessment.SubjectID,
 			&assessment.Code,
@@ -226,7 +240,7 @@ func (r *CatalogRepo) ListAssessments(
 		assessments = append(assessments, assessment)
 	}
 
-	if err := rows.Err(); err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, "", err
 	}
 

@@ -143,6 +143,7 @@ func (s *Server) ListAssessments(
 		"subject_id", req.GetSubjectId(),
 		"query", req.GetQuery(),
 		"status", req.GetStatus().String(),
+		"mode", req.GetMode().String(),
 		"page_size", req.GetPageSize(),
 		"page_token", req.GetPageToken(),
 	)
@@ -153,6 +154,7 @@ func (s *Server) ListAssessments(
 		SubjectID: req.GetSubjectId(),
 		Query:     req.GetQuery(),
 		Status:    mappers.AssessmentStatusFromProto(req.GetStatus()),
+		Mode:      mappers.AssessmentModeFromProto(req.GetMode()),
 		PageSize:  int(req.GetPageSize()),
 		PageToken: req.GetPageToken(),
 	})

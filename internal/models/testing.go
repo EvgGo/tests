@@ -248,6 +248,7 @@ type ListAssessmentsFilter struct {
 	SubjectID int64
 	Query     string
 	Status    AssessmentStatus
+	Mode      AssessmentMode
 	PageSize  int
 	PageToken string
 }

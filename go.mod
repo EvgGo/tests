@@ -3,7 +3,7 @@ module testing
 go 1.24.2
 
 require (
-	github.com/EvgGo/proto v0.22.0
+	github.com/EvgGo/proto v0.23.0
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/google/uuid v1.6.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
